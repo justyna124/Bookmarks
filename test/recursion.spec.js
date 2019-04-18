@@ -33,6 +33,12 @@ describe('mergeRecursive', () => {
             expect(mergeRecursive([{text: 1}], [{b: 2}, {text: 1}])).to.eql( [{b: 2},{text: 1}]);
         });
     });
+    describe('when target and source are nested arrays ', () => {
+        it('should merge recursively', () => {
+            const result = mergeRecursive({parent: {obj: {a: 1}, arr: [{text: 1, b: 1}]}}, {parent: {arr: [{text: 1, c: 1}], obj: {b: 1}}});
+            expect(result).to.eql({parent: {obj: {a: 1, b: 1}, arr: [{text: 1, b: 1, c: 1}]}});
+        });
+    });
     describe('when target is and object but source is array ', () => {
         it('should overwrite target by source', () => {
             expect(mergeRecursive({hej: {a: 1}}, {hej: [{a: 1}, {b: 2}]})).to.eql({hej: [{a: 1}, {b: 2}]});
@@ -40,7 +46,7 @@ describe('mergeRecursive', () => {
     });
     describe('when target and source are arrays and merged .....', () => {
         it('should merge recursively', () => {
-            expect(mergeRecursive([{a: 1, c: 2}], [{a: 1, d: 3}, {b: 2}])).to.eql([{a: 1, c: 2, d: 3}, {b: 2}]);
+            expect(mergeRecursive([{text: 1, c: 2}], [{text: 1, d: 3}, {b: 2}])).to.eql([{text: 1, c: 2, d: 3}, {b: 2}]);
         });
     });
     describe('when source object contains primitive value in already existed property', () => {

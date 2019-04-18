@@ -160,7 +160,7 @@ function mergeRecursive(obj1, obj2) {
             const item2 = obj2.shift();
             let sameItem1Index;
             for (let i = 0; i < obj1.length; i++) {
-                if (item2.text == obj1[i].text) {
+                if (item2.text && item2.text === obj1[i].text) {
                     sameItem1Index = i;
                 }
             }

@@ -151,18 +151,11 @@ let stringifiedConvertedNode1 = JSON.stringify(convertedNode1, null, 2);
 // else result.push(currentItem);
 
 function mergeRecursive(obj1, obj2) {
-
-    // console.log('obj1', obj1);
-    // console.log('obj2', obj2);
-
-
     for (const key in obj2) {
-        console.log('key', obj2[key]);
         if (Array.isArray(obj2[key]) && obj2[key].length) {
             const result = [];
             while (obj2[key].length) {
                 const item2 = obj2[key].shift();
-                console.log('i2',item2)
                 let sameItem1Index;
                 for (let i = 0; i < obj1[key].length; i++) {
                     if (item2.text == obj1[key][i].text) {
@@ -175,22 +168,19 @@ function mergeRecursive(obj1, obj2) {
                 } else {
                     result.push(item2);
                 }
-                console.log('end iteration', result)
             }
             obj1[key] = result.concat(obj1[key]);
-            console.log('1 - end\n')
         } else if ('object' === typeof obj2[key]) {
-            console.log('2')
             obj1[key] = !Array.isArray(obj1[key]) && 'object' === typeof obj1[key] ?  obj1[key] : {};
             obj1[key] = mergeRecursive(obj1[key], obj2[key])
         } else {
-            console.log('3')
             obj1[key] = obj2[key];
         }
     }
-    console.log(obj1);
     return obj1;
 }
+
+
 
 // const rootMerge = mergeRecursive(stringifiedConvertedNode, stringifiedConvertedNode1);
 // const rootMerge = mergeRecursive(convertedNode, convertedNode1);

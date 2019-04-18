@@ -28,9 +28,14 @@ describe('mergeRecursive', () => {
             expect(mergeRecursive({parent: [{text: 1}]}, {parent: [{b: 2}, {text: 1}]})).to.eql({parent: [{b: 2},{text: 1}]});
         });
     });
-    describe.only('when target and source are arrays and merged ', () => {
+    describe('when target and source are arrays and merged ', () => {
         it('should merge recursively', () => {
             expect(mergeRecursive([{text: 1}], [{b: 2}, {text: 1}])).to.eql( [{b: 2},{text: 1}]);
+        });
+    });
+    describe('when target is and object but source is array ', () => {
+        it('should overwrite target by source', () => {
+            expect(mergeRecursive({hej: {a: 1}}, {hej: [{a: 1}, {b: 2}]})).to.eql({hej: [{a: 1}, {b: 2}]});
         });
     });
     describe('when target and source are arrays and merged .....', () => {

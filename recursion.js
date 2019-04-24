@@ -1,24 +1,20 @@
-var html2json = require('html2json').html2json;
-var json2html = require('node-json2html');
-var fs = require('fs');
-var _ = require('lodash');
+const html2json = require('html2json').html2json;
+const json2html = require('node-json2html');
+const fs = require('fs');
+const _ = require('lodash');
 
 const jsdom = require('jsdom');
-var mergeJSON = require("merge-json");
 
-const $ = require('jquery')(new jsdom.JSDOM(fs.readFileSync('C:/Users/Lenovo/Desktop/bookmarks_15.03.2019.html').toString()).window);
-const $1 = require('jquery')(new jsdom.JSDOM(fs.readFileSync('C:/Users/Lenovo/Desktop/bookmarks_14.03.2019.html').toString()).window);
+const $ = require('jquery')(new jsdom.JSDOM(fs.readFileSync('C:/Users/Lenovo/Desktop/bookmarks_18.04.2019.html').toString()).window);
+const $1 = require('jquery')(new jsdom.JSDOM(fs.readFileSync('C:/Users/Lenovo/Desktop/bookmarks_15.03.2019.html').toString()).window);
 
 $('p').remove();
 $1('p').remove();
 const root = $('body');
 const root1 = $1('body');
-// console.log(root)
 
 let json = html2json(root[0].outerHTML);
 let json1 = html2json(root1[0].outerHTML);
-// console.log(json1);
-// fs.writeFileSync('fixed.html', root[0].outerHTML);
 
 function listDirectory(sourceNode, parentNode) {
     let targetNode = {};
@@ -45,7 +41,6 @@ function listDirectory(sourceNode, parentNode) {
         sourceNode.child.forEach(child => {
 
             if (child.tag === 'dl' && convertedChild) {
-
                 convertedChild = listDirectory(child, convertedChild) || convertedChild;
             } else
                 convertedChild = listDirectory(child, targetNode) || convertedChild;
@@ -56,103 +51,14 @@ function listDirectory(sourceNode, parentNode) {
 
 let convertedNode = listDirectory(json.child[0], null).children[0];
 let convertedNode1 = listDirectory(json1.child[0], null).children[0];
-// console.log('CN', JSON.stringify(convertedNode));
 fs.writeFileSync('converted1.json', JSON.stringify(convertedNode));
 
 let stringifiedConvertedNode = JSON.stringify(convertedNode, null, 2);
 let stringifiedConvertedNode1 = JSON.stringify(convertedNode1, null, 2);
 
-// console.log('string',stringifiedConvertedNode1);
-
-
-// function isPrimitive(sourceValue) {
-//     return sourceValue instanceof String || 'string' === typeof sourceValue || 'number' === typeof sourceValue;
-// }
-//
-//
-// function mergeRecursive(target, source) {
-//     // const result=[];
-//     // const currentItem = target.pop();
-//     //
-//     // if currentItem.text == findedItemFromSource.text => result.push({
-//     // text: curentItem.text,
-//     // children: mergeRecursove(currentItem.children, findedItemFromSource.children)})
-//     // else result.push(currentItem);
-//
-//     for (const key in source) {
-//
-//         if (!source.hasOwnProperty(key))
-//             continue;
-//         let sourceValue = source[key];
-//         let targetValue = target[key];
-//         if (null == targetValue) {
-//             target[key] = sourceValue;
-//             continue;
-//         }
-//         if (_.isEqual(targetValue, sourceValue)) {
-//             continue;
-//         }
-//         if (Array.isArray(sourceValue)) {
-//             if (!Array.isArray(targetValue)) {
-//                 target[key] = sourceValue;
-//             } else {
-//                 //    TODO handle array
-//                 // let resultJson = [];
-//                 //
-//                 // let popValue = targetValue.pop();
-//                 // console.log('item',popValue)
-//                 // let mergedArray = targetValue.concat(sourceValue);
-//                 // // console.log('merge',mergedArray)
-//                 // // let removeDuplicates = [...new Set(mergedArray)];
-//                 // var removeDuplicates = mergedArray.filter(function (item, pos) {return mergedArray.indexOf(item) == pos});
-//                 // console.log('rd',removeDuplicates)
-//                 // target[key]=removeDuplicates;
-//                 // for (let key in sourceValue) {
-//                 //     // console.log(sourceValue[item])
-//                 //     console.log(popValue.text)
-//                 //     console.log(sourceValue[1].text)
-//                     // console.log(sourceValue.hasOwnProperty(key))
-//                     // if(popValue.text==item.text){
-//                     //     // mergeRecursive(targetValue, sourceValue);
-//                     //     resultArray.push(popValue,)
-//                     // }
-//                     // // sourceValue.hasOwnProperty(key)
-//                     // if (popValue.text == sourceValue[1].text) {
-//                     //     targetValue[key] = sourceValue[key];
-//                     //     resultArray.push(targetValue[key]);
-//                     //     console.log('ra', resultArray);
-//                     }
-//
-//                 mergeRecursive(targetValue, sourceValue);
-//             }
-//       else if (isPrimitive(sourceValue)) {
-//             target[key] = sourceValue;
-//         } else {
-//             if (!Array.isArray(targetValue) && !isPrimitive(targetValue)) {
-//                 // console.log('1111');
-//                 mergeRecursive(targetValue, sourceValue);
-//             } else {
-//                 // console.log('222');
-//                 target[key] = sourceValue;
-//             }
-//         }
-//     }
-//     return target;
-// }
-
-
-// function mergeRecursive(target, source) {
-//     const result=[];
-//     const currentItem = target.pop();
-
-// if currentItem.text == findedItemFromSource.text => result.push({
-// text: curentItem.text,
-// children: mergeRecursove(currentItem.children, findedItemFromSource.children)})
-// else result.push(currentItem);
-
 function mergeRecursive(obj1, obj2) {
     if (Array.isArray(obj2) && obj2.length) {
-        if(!Array.isArray(obj1)) {
+        if (!Array.isArray(obj1)) {
             return obj2;
         }
         const result = [];
@@ -173,7 +79,7 @@ function mergeRecursive(obj1, obj2) {
         }
         return result.concat(obj1);
     } else if ('object' === typeof obj2) {
-        obj1 = !Array.isArray(obj1) && 'object' === typeof obj1 ?  obj1 : {};
+        obj1 = !Array.isArray(obj1) && 'object' === typeof obj1 ? obj1 : {};
         for (const key in obj2) {
             obj1[key] = mergeRecursive(obj1[key], obj2[key])
         }
@@ -183,19 +89,12 @@ function mergeRecursive(obj1, obj2) {
     }
 }
 
+fs.writeFileSync('convertedNode1.json', JSON.stringify(convertedNode));
+fs.writeFileSync('convertedNode2.json', JSON.stringify(convertedNode1));
 
+const rootMerge = mergeRecursive(convertedNode, convertedNode1);
 
-// const rootMerge = mergeRecursive(stringifiedConvertedNode, stringifiedConvertedNode1);
-// const rootMerge = mergeRecursive(convertedNode, convertedNode1);
-// console.log(rootMerge)
-
-
-
-
-// fs.writeFileSync('converted.json', stringifiedConvertedNode1);
-// fs.writeFileSync('converted.json', JSON.stringify(rootMerge));
-// fs.writeFileSync('converted.json', rootMerge);
-
+fs.writeFileSync('converted.json', JSON.stringify(rootMerge));
 
 module.exports = {
     mergeRecursive

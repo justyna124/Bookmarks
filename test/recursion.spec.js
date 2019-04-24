@@ -59,16 +59,5 @@ describe('mergeRecursive', () => {
             expect(mergeRecursive({a: {b: 2}}, {a: {b: {c: 1}}})).to.eql({a: {b: {c: 1}}});
         });
     });
-    // describe('when source object contains primitive', () => {
-    //     it('should merge recursively', () => {
-    //
-    //         expect(mergeRecursive({b:[1,2]}, 2)).to.eql({b:2});
-    //     });
-    // });
-    // describe('when target are not array and primitive object ', () => {
-    //     it('should merge recursively', () => {
-    //
-    //         expect(mergeRecursive({}, {a:'a'})).to.eql({a:'a'});
-    //     });
-    // });
+
 });

@@ -1,11 +1,10 @@
-var fs = require('fs');
+const fs = require('fs');
 const htmlToJson = require('./converted.json');
 
 function generateHtml(obj) {
     let result = '';
-// console.log("aaa",obj.attr)
     if (obj.text && obj.attr) {
-        for (var i in obj.attr) {
+        for (let i in obj.attr) {
             if (obj.attr.href) {
 
                 const icon = obj.attr.icon ? `ICON="${obj.attr.icon}"` : '';
@@ -17,7 +16,6 @@ function generateHtml(obj) {
     if (obj.children) {
         let childrens = '';
         obj.children.forEach((el) => {
-            // console.log(el);
             childrens += generateHtml(el);
         });
         result += `\n <DL>${childrens}</DL> \n`;

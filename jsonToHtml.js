@@ -42,6 +42,4 @@ const fs = require('fs');
 fs.writeFileSync('converted.html', output);
 module.exports={
     fs,
-    htmlToJson
-
-}
+   }

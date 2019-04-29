@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "handlebars": "^4.1.2",
     "html-to-json": "^0.6.0",
     "html2json": "^1.0.2",
     "jquery": "^3.3.1",
